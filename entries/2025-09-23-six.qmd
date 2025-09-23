@@ -1,0 +1,71 @@
+---
+title: "2025-09-23-six"
+format:
+  html: default
+  pdf: default
+params:
+  course: "mc501"
+  word_min: 450
+  word_max: 500
+
+  p2: 'This chapter outlines five criteria for strong research questions and hypotheses: clarity, grounding in literature, researchability, clear identification of variables or phenomena, and significance. Choose one of these criteria and explain why it seems especially important to you as a beginner researcher. Then, critique a question or hypothesis (real or imagined) that fails to meet this criterion. What makes it fall short?'
+
+---
+
+## Choose **one** prompt to answer
+
+> **Prompt B:** `r params$p2`
+
+---
+
+## Response
+
+<!-- RESPONSE-START -->
+As a beginner researcher, I am pulled strongly towards the significance of the research I intend to do. A big reason for me to return to Southern Illinois University Edwardsville for my grad program is to have the opportunity to work on a project that may make some small addition to Southern Illinois University Edwardsville that can be sustained after I’m gone. I understand that not all research will yield some type of earthshaking addition to the world’s consciousness. However, I also know that all types of research and end results can be valid and appreciated within their respective communities. 
+
+My upcoming final project will be based on data-driven info that comes from on high (the Provost’s office) and will work directly towards boosting student retention, enrollment, and graduation. Not only do I hope to create a deeper sense of belonging among students, but I’d like to lift up the Mass Comm department in Dunham Hall. I believe there’s a unique opportunity to put the Mass Comm department’s endeavors out in front of more students. We have an amazing, recently updated TV studio, a faculty who are consistently doing outstanding research and projects in the field and the subjects the department covers helps prepare students for today’s superfast, media-driven society. Again, I would like my research and final project to highlight the very exciting things that can be done within the MC department.
+
+My time out in the real world post-undergrad has given so much perspective on what I really want in my life. Bringing that perspective to my research and final project is supremely important to me. The work I want to do in my grad program now at age 38 must be significantly different than if I went through grad school at 23. I believe that I have forged some strong connections with important, current decisionmakers at Southern Illinois University Edwardsville. I also can attest to keep strong relationships with my former teachers and staff inside of the Mass Comm department that will serve me well as I roll out my final project. For now, I think it’s perfectly acceptable to want to do some significant work. Again, I’m not aiming to cure cancer with my research, but I do believe my work will have a positive impact on Southern Illinois University Edwardsville.
+
+Critiquing in-earnest research because it lacks significance through my point of view may be difficult to conceptualize. Studying the effects of building vocabulary in teenagers based on internet memes in southern Chile may not be significant to me. However, there may very well be significance for the population of southern Chile to understand those effects. This is all to say significance is in the eye of the researchers and the publishing journal. 
+<!-- RESPONSE-END -->
+
+---
+
+## Word Count & Range Check
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+get_response_text <- function() {
+  f <- knitr::current_input()
+  if (is.null(f) || !file.exists(f)) return("")
+  x <- readLines(f, warn = FALSE)
+  # Find the lines that EXACTLY match the start/end markers
+  s <- grep("^<!-- RESPONSE-START -->$", x)
+  e <- grep("^<!-- RESPONSE-END -->$", x)
+  if (length(s) != 1 || length(e) != 1 || e <= s) return("")
+  paste(x[(s + 1L):(e - 1L)], collapse = "\n")
+}
+count_words <- function(txt) {
+  # Remove code blocks and inline code before counting
+  txt <- gsub("```[\\s\\S]*?```", " ", txt, perl = TRUE)
+  txt <- gsub("`[^`]*`", " ", txt, perl = TRUE)
+  # Keep letters, numbers, spaces, hyphens, and apostrophes
+  txt <- gsub("[^\\p{L}\\p{N}\\s'-]", " ", txt, perl = TRUE)
+  # Split by whitespace and count non-empty words
+  words <- unlist(strsplit(txt, "\\s+", perl = TRUE))
+  words <- words[nzchar(words)]
+  length(words)
+}
+txt <- get_response_text()
+n <- count_words(txt)
+minw <- as.integer(params$word_min)
+maxw <- as.integer(params$word_max)
+in_range <- n >= minw && n <= maxw
+cat(sprintf("**Word count:** %d  \n", n))
+cat(sprintf("**Required range (%s):** %d–%d words  \n",
+            toupper(params$course), minw, maxw))
+cat(if (in_range) "**Status:** ✅ In range\n" else "**Status:** ❌ Out of range\n")
+```
