@@ -11,7 +11,10 @@ book:
     - index.qmd
     # --- auto-managed: do not edit below; scripts/update_chapters.R rewrites this ---
     # BEGIN AUTO
-    - entries/2025-09-03.qmd
+    - entries/2025-09-16-five.qmd
+    - entries/2025-09-23-six.qmd
+    - entries/2025-09-30.qmd
+    - entries/2025-09-four.qmd
     - entries/2025-09-three.qmd
     - entries/2025-09-two.qmd
     # END AUTO
