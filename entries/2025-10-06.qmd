@@ -1,0 +1,85 @@
+---
+title: "2025-10-06"
+format:
+  html: default
+  pdf: default
+params:
+  course: "mc501"
+  word_min: 450
+  word_max: 500
+
+  p2: 'Select one of the following concepts: political engagement, body image, media literacy, or interpersonal trust. First, write a short conceptual definition for the term in your own words. Then, brainstorm 2–3 specific ways a researcher might operationalize that concept. What kinds of survey questions, observational criteria, or behavioral measures might capture it? How do your choices shape what “counts” as evidence?'
+
+---
+
+## Choose **one** prompt to answer
+
+> **Prompt B:** `r params$p2`
+
+---
+
+## Response
+
+<!-- RESPONSE-START -->
+For this week’s journal, I’m going to use the concept of media literacy for the following entry.
+
+Media Literacy is an educated understanding of how to critically evaluate, reflect and make choices about the various forms of media you consume in your day to day life. 
+
+The growing need for quality, continuing Media Literacy domestically and abroad is particularly acute in the age of AI and rampant misinformation on social media and the internet at all. At the same time, many people, especially young people, are only getting news about the outside world through social media apps, like TikTok. As you can imagine, this is very problematic for consumers who are mistaking clickbait/ragebait as authentic, vetted news. 
+
+As a researcher, I would operationalize the concept of Media Literacy through these researching exercises:
+
+- Prepare a number of artificial news stories or find real news stories with varying degrees of bias in the headline
+
+Identifying bias is crucial in understanding and developing Media Literacy. Identifying bias in a newspaper article may be easier than listening comprehension during a video newscast. Word choice and framing of particular personas in the news can be a big, red flag in understanding the spin that the media channel is attempting to feed you. Finding stereotypes in the messaging would be a big giveaway in terms of identifying bias.
+
+- Collect various examples of AI-generated videos of world leaders and/or celebrities and breakdown the “giveaways” that the video is fake
+
+AI continues to be the lurking, deceptive beast that poisons the worldview of non-media literate. It could be wish fulfillment for innocent people who want to get a laugh out of seeing their favorite celebrity dancing. However, AI-generated content flooding social media feeds and newscycles has been destructive, misleading and making objective truth more and more difficult to align on. While the current tells of whether a video is AI-generated may only be valid until the capabilities of AI get better, it’s still important to be able to sniff some features of AI. Is the video you’re watching more than just multiple shorts clips? Are things in the background of the video you’re watching consistent over many clips? Does the video feature any reality breaking physics?
+
+- Challenge the critical thinking capabilities of the research/ survey participants
+
+While critical thinking is inherent to media literacy and the other suggestions above, outright challenging participants’ critical thinking would also be a great way to highlight areas where participants may be lacking. Is the news headline or article attempting to rewrite the way you remember history? Do the facts laid out in the news story make objective sense to the scope that they’re presented? Is this news story preying on my fear of _____ and automatically making me side with what story they’re trying to tell?
+
+I believe researching and raising awareness for Media Literacy is important. The aforementioned strategies would make for good evidence in the research. I would like to do research in this field.
+<!-- RESPONSE-END -->
+
+---
+
+## Word Count & Range Check
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+get_response_text <- function() {
+  f <- knitr::current_input()
+  if (is.null(f) || !file.exists(f)) return("")
+  x <- readLines(f, warn = FALSE)
+  # Find the lines that EXACTLY match the start/end markers
+  s <- grep("^<!-- RESPONSE-START -->$", x)
+  e <- grep("^<!-- RESPONSE-END -->$", x)
+  if (length(s) != 1 || length(e) != 1 || e <= s) return("")
+  paste(x[(s + 1L):(e - 1L)], collapse = "\n")
+}
+count_words <- function(txt) {
+  # Remove code blocks and inline code before counting
+  txt <- gsub("```[\\s\\S]*?```", " ", txt, perl = TRUE)
+  txt <- gsub("`[^`]*`", " ", txt, perl = TRUE)
+  # Keep letters, numbers, spaces, hyphens, and apostrophes
+  txt <- gsub("[^\\p{L}\\p{N}\\s'-]", " ", txt, perl = TRUE)
+  # Split by whitespace and count non-empty words
+  words <- unlist(strsplit(txt, "\\s+", perl = TRUE))
+  words <- words[nzchar(words)]
+  length(words)
+}
+txt <- get_response_text()
+n <- count_words(txt)
+minw <- as.integer(params$word_min)
+maxw <- as.integer(params$word_max)
+in_range <- n >= minw && n <= maxw
+cat(sprintf("**Word count:** %d  \n", n))
+cat(sprintf("**Required range (%s):** %d–%d words  \n",
+            toupper(params$course), minw, maxw))
+cat(if (in_range) "**Status:** ✅ In range\n" else "**Status:** ❌ Out of range\n")
+```
