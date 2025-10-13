@@ -1,0 +1,74 @@
+---
+title: "2025-10-13"
+format:
+  html: default
+  pdf: default
+params:
+  course: "mc501"
+  word_min: 450
+  word_max: 500
+  p1: 'Think about a time when you were asked to take a survey—maybe in a class, at work, or online. Did any of the questions confuse you, feel biased, or leave you without an option that reflected your honest opinion? Describe one such moment. What made the question problematic, and how might you rewrite it to improve it?'
+ 
+---
+
+## Choose **one** prompt to answer
+
+> **Prompt A:** `r params$p1`
+
+
+---
+
+## Response
+
+<!-- RESPONSE-START -->
+After my undergrad at SIUE, I moved to Chicago and worked in a number of start-up tech offices in the Loop downtown. Some of these companies focused more on employee satisfaction and retention than others. One method of gauging employee happiness sourcing feedback was through “anonymous” employee surveys. I’d like to use today’s journal entry to unpack my feelings about my former survey responses and the potential downsides to answering honestly in the surveys.
+
+In my experience with workplace/ employee surveys, the questions don’t often go deeper than very surface-level platitudes. The basic questions I remember seeing in surveys at old jobs weren’t designed to open up a discussion about anything meaningful or deep. The survey questions rarely had options to bring up critical feedback. Of course, there was almost always a text box available at the end of the survey to provide any additional feedback.
+
+The sticking point for me with providing honest, critical feedback was always the lingering “anonymity” of submitting the survey to HR. I know that the survey isn’t really anonymous: HR could absolutely trace my responses back to me, especially if I’m complaining or giving negative answers to their questions. From the inside info I know about the various HR departments I’ve worked under, the companies are usually actively suppressing discontent, so the company can win “Best Workplace” awards. Without any negative comments or criticisms, they can tout how great their work environments are.
+
+I can remember at one office having difficulties establishing a timeline for when I could expect a raise. This was in light of achieving all of the goals my direct report had set for me over the course of about 8 months. This discussion with my manager was not a one-off, as I wanted to get paid appropriately for the positive contributions I was routinely making not just on my team, but others. It was around mid-year, so we had one of the bi-annual company-wide surveys go out to everyone’s inbox. I can remember answering the survey (using a Likert scale) honestly. When it came time to leave comments, I talked about wanting to have a road to achieve a raise plainly laid out for me. During my next 1:1 with my manager, she mentioned establishing a “road to get a raise”. I don’t know for sure if my survey comment was enough for HR to say something to my manager or if it was just serendipitous timing. 
+
+If I had my own opportunity to gauge connection and belonging in an office that I manage in the future, I would take steps away from the sterile nature of a survey. I believe the qualitative research that can come from honest conversations with my peers and reports could yield more insightful feedback to make my theoretical company run smoother and feel more inclusive.
+
+<!-- RESPONSE-END -->
+
+---
+
+## Word Count & Range Check
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+get_response_text <- function() {
+  f <- knitr::current_input()
+  if (is.null(f) || !file.exists(f)) return("")
+  x <- readLines(f, warn = FALSE)
+  # Find the lines that EXACTLY match the start/end markers
+  s <- grep("^<!-- RESPONSE-START -->$", x)
+  e <- grep("^<!-- RESPONSE-END -->$", x)
+  if (length(s) != 1 || length(e) != 1 || e <= s) return("")
+  paste(x[(s + 1L):(e - 1L)], collapse = "\n")
+}
+count_words <- function(txt) {
+  # Remove code blocks and inline code before counting
+  txt <- gsub("```[\\s\\S]*?```", " ", txt, perl = TRUE)
+  txt <- gsub("`[^`]*`", " ", txt, perl = TRUE)
+  # Keep letters, numbers, spaces, hyphens, and apostrophes
+  txt <- gsub("[^\\p{L}\\p{N}\\s'-]", " ", txt, perl = TRUE)
+  # Split by whitespace and count non-empty words
+  words <- unlist(strsplit(txt, "\\s+", perl = TRUE))
+  words <- words[nzchar(words)]
+  length(words)
+}
+txt <- get_response_text()
+n <- count_words(txt)
+minw <- as.integer(params$word_min)
+maxw <- as.integer(params$word_max)
+in_range <- n >= minw && n <= maxw
+cat(sprintf("**Word count:** %d  \n", n))
+cat(sprintf("**Required range (%s):** %d–%d words  \n",
+            toupper(params$course), minw, maxw))
+cat(if (in_range) "**Status:** ✅ In range\n" else "**Status:** ❌ Out of range\n")
+```
